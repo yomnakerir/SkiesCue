@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/home_fragment">
+
+    <fragment
+        android:id="@+id/home_fragment"
+        android:name="com.example.skiescue.home.view.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_navigation_home_to_favouriteFragment"
+            app:destination="@id/favourite_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setting_fragment"
+        android:name="com.example.skiescue.setting.SettingFragment"
+        android:label="SettingFragment" >
+        <action
+            android:id="@+id/action_settingFragment_to_navigation_home"
+            app:destination="@id/home_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favourite_fragment"
+        android:name="com.example.skiescue.favourite.view.FavouriteFragment"
+        android:label="fragment_favourite"
+        tools:layout="@layout/fragment_favourite" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_navigation_home"
+            app:destination="@id/home_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/alerts_fragment"
+        android:name="com.example.skiescue.alert.view.AlertFragment"
+        android:label="AlertFragment" />
+</navigation>
