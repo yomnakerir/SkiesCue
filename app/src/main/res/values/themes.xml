@@ -16,5 +16,14 @@
         <!-- remove statusbar-->
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+
+        <!--change color of bottom bar-->
+
+        <item name="android:actionMenuTextColor">@color/deep</item>
     </style>
+
+
+
+
+
 </resources>
