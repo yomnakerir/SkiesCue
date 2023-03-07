@@ -96,15 +96,33 @@ data class Daily(
 )
 
 data class WeatherResponse(
-    val current: Current,
-    val daily: List<Daily>,
-    val hourly: List<Hourly>,
-    val lat: Double,
-    val lon: Double,
-    val timeZone: String,
-    val timezone_offset: Int
+    val current: Current ?= null,
+    val daily: List<Daily> = emptyList(),
+    val hourly: List<Hourly> = emptyList(),
+    val lat: Double ?= null,
+    val lon: Double ?= null,
+    val timeZone: String ?= null,
+    val timezone_offset: Int ?= null
 )
 
 
 
 
+enum class Units(var unit: String) {
+    IMPERIAL("imperial"),
+    METRIC("metric"),
+    STANDARD("standard")
+
+}
+
+enum class Languages(var language: String) {
+    ENGLISH("en"),
+    ARABIC("ar")
+}
+
+enum class Location(var location: String) {
+    MAP("MAP"),
+    GPS("GPS")
+
+
+}

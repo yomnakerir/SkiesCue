@@ -1,5 +1,78 @@
 <resources>
     <string name="app_name">SkiesCue</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="shared_pref" translatable="false">com.example.skiescue.GEDO</string>
+    <string name="LAT" translatable="false">LAT</string>
+    <string name="LON" translatable="false">LON</string>
+    <string name="settings">Settings</string>
+    <string name="language">Language</string>
+    <string name="English">English</string>
+    <string name="arabic">Arabic</string>
+    <string name="temperature">Temperature</string>
+    <string name="units">Units</string>
+    <string name="celsius">Temperature is Celsius, Speed is m/s </string>
+    <string name="Kelvin">Temperature is Kelvin, Speed is m/s</string>
+    <string name="fahrenheit">Temperature is Fahrenheit, Speed is mm/h</string>
+    <string name="TIMEZONE" translatable="false">TIMEZONE</string>
+    <string name="MAP" translatable="false">MAP</string>
+    <string name="FIRST" translatable="false">FIRST</string>
+    <string name="GPS" translatable="false">GPS</string>
+    <string name="LOCATION" translatable="false">LOCATION</string>
+    <string name="LAN" translatable="false">LAN</string>
+    <string name="UNITS" translatable="false">UNITS</string>
+    <string name="LOCATIONCHOICE" translatable="false">LOCATIONCHOICE</string>
+    <string name="Celsusi">°C</string>
+    <string name="Ferherhit">F</string>
+    <string name="KELVIN">°K</string>
+    <string name="MeterPerSecond">m/s</string>
+    <string name="MiliPerHour">mm/h</string>
+    <string name="Pascal">PA</string>
+    <string name="favourite">Favourite</string>
+    <string name="shared_fav_pref" translatable="false">shared_fav_pref</string>
+    <string name="FAV_FLAG" translatable="false">FLAG</string>
+    <string name="Delete">Delete</string>
+    <string name="AWTD">Are You Want to delete</string>
+    <string name="SuccessDeleted">Successfully Deleted</string>
+    <string name="save">save</string>
+    <string name="YMCN">You should connect to network to get weather update</string>
+    <string name="LPG">Location Permission Granted</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="SAT">Select Appointment time</string>
+    <string name="choose_time">Choose time</string>
+    <string name="alerts">Alerts</string>
+    <string name="ID">ID</string>
+    <string name="succ_deleted">Successfully Deleted</string>
+    <string name="DESC">DESC</string>
+    <string name="IsAlert">isAlert</string>
+    <string name="ISALERT">isAlert</string>
+    <string name="channel_name">ForcastWeather</string>
+    <string name="weather_Fine">The Weather is Fine</string>
+    <string name="weather_alerts">Weather Alerts</string>
+    <string name="ther_is_no_alarm">There is No Alert for this time</string>
+    <string name="the_weather_is">The weather is</string>
+    <string name="ok">OK</string>
+    <string name="to_enjoy_features">To enjoy our features</string>
+    <string name="ENDDAY">endDay</string>
+    <string name="there_is_no_alarm_yet">There is No Alarm Yet</string>
+    <string name="no_places">No Places</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+
 </resources>
