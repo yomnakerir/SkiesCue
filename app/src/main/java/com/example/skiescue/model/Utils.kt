@@ -16,25 +16,25 @@ import java.util.concurrent.TimeUnit
 fun getIconImage(icon: String): Int {
     val iconValue: Int
     when (icon) {
-        "01d" -> iconValue = R.drawable.a02d
-        "01n" -> iconValue = R.drawable.a02d
-        "02d" -> iconValue = R.drawable.a02d
-        "02n" -> iconValue = R.drawable.a02d
-        "03n" -> iconValue = R.drawable.a02d
-        "03d" -> iconValue = R.drawable.a02d
-        "04d" -> iconValue = R.drawable.a02d
-        "04n" -> iconValue = R.drawable.a02d
-        "09d" -> iconValue = R.drawable.a02d
-        "09n" -> iconValue = R.drawable.a02d
-        "10d" -> iconValue = R.drawable.a02d
-        "10n" -> iconValue = R.drawable.a02d
-        "11d" -> iconValue = R.drawable.a02d
-        "11n" -> iconValue = R.drawable.a02d
-        "13d" -> iconValue = R.drawable.a02d
-        "13n" -> iconValue = R.drawable.a02d
-        "50d" -> iconValue = R.drawable.a02d
-        "50n" -> iconValue = R.drawable.a02d
-        else -> iconValue = R.drawable.home
+        "01d" -> iconValue = R.raw.sunny
+        "01n" -> iconValue = R.raw.night
+        "02d" -> iconValue = R.raw.sunclouds
+        "02n" -> iconValue = R.raw.cloudynight
+        "03n" -> iconValue = R.raw.clearclouds
+        "03d" -> iconValue = R.raw.clearclouds
+        "04d" -> iconValue = R.raw.brokenclod
+        "04n" -> iconValue = R.raw.brokenclod
+        "09d" -> iconValue = R.raw.darkrain
+        "09n" -> iconValue = R.raw.darkrain
+        "10d" -> iconValue = R.raw.cloudysunrain
+        "10n" -> iconValue = R.raw.rainynight
+        //"11d" -> iconValue = R.drawable.a11d
+        //"11n" -> iconValue = R.drawable.a11n
+        //"13d" -> iconValue = R.drawable.a13d
+        //"13n" -> iconValue = R.drawable.a13n
+        //"50d" -> iconValue = R.drawable.a50d
+        //"50n" -> iconValue = R.drawable.a50n
+        else -> iconValue = R.raw.error
     }
     return iconValue
 }
@@ -48,19 +48,31 @@ fun convertToTime(dt: Long, context: Context): String {
     return format.format(date)
 }
 
-// now Day friday
-fun convertToDay(dt: Long): String {
-    val calendar = Calendar.getInstance()
-    calendar.timeInMillis = dt
-    return calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)
-}
 
-// return now day history
-fun convertToDate(dt: Long, context: Context): String {
+fun convertToTimeSecondFormat(dt: Long, context: Context): String {
     val date = Date(dt * 1000)
-    val format = SimpleDateFormat("d MMM, yyyy", Locale(getCurrentLan(context)))
+    val format = SimpleDateFormat("h a", Locale(getCurrentLan(context)))
     return format.format(date)
 }
+
+
+
+
+fun convertToDate(dt: Long, context: Context): String {
+    val date = Date(dt * 1000)
+    val format = SimpleDateFormat("d / MM / yyyy", Locale(getCurrentLan(context)))
+    return format.format(date)
+
+
+
+}
+
+fun convertToDateSecondForm(dt: Long, context: Context): String {
+    val date = Date(dt * 1000)
+    val format = SimpleDateFormat("d ", Locale(getCurrentLan(context)))
+    return format.format(date)
+}
+
 
 fun isConnected(context: Context): Boolean {
     val connectivityManager =
@@ -122,7 +134,7 @@ fun checkShared(context: Context): Boolean {
 //// history of Days
 fun convertLongToDay(time: Long, context: Context): String {
     val date = Date(TimeUnit.SECONDS.toMillis(time))
-    val format = SimpleDateFormat("EEE", Locale(getCurrentLan(context)))
+    val format = SimpleDateFormat("EEEE", Locale(getCurrentLan(context)))
     return format.format(date)
 }
 

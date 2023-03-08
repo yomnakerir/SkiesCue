@@ -12,4 +12,14 @@
     <color name="deep">#003B73</color>
     <color name="cold">#DBE2EF</color>
     <color name="sea">#2C74B3</color>
+
+
+
+    <color name="ming">#35727B</color>
+    <color name="steelTeal">#4E8891</color>
+    <color name="crystalBlue">#72A3A8</color>
+    <color name="timberwolf">#DAD8CC</color>
+    <color name="tan">#C8B790</color>
+    <color name="camel">#B79F6E</color>
+
 </resources>

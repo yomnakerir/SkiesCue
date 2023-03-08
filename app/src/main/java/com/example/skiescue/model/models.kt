@@ -1,4 +1,5 @@
 package com.example.skiescue.model
+import android.media.Image
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.room.Entity
@@ -101,12 +102,18 @@ data class WeatherResponse(
     val hourly: List<Hourly> = emptyList(),
     val lat: Double ?= null,
     val lon: Double ?= null,
-    val timeZone: String ?= null,
-    val timezone_offset: Int ?= null
+    val timezone: String ?= null,
+    val timezone_offset: Int ?= null,
+    val icon: String? = null
+
 )
 
 
-
+data class SunRise(
+    val name: String,
+    val dt: Long,
+    val image: Image
+)
 
 enum class Units(var unit: String) {
     IMPERIAL("imperial"),
@@ -123,6 +130,5 @@ enum class Languages(var language: String) {
 enum class Location(var location: String) {
     MAP("MAP"),
     GPS("GPS")
-
 
 }

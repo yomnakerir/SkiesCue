@@ -30,33 +30,36 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="3 AM"
-                android:textColor="@color/navy"
-                android:textSize="16sp"
+                android:fontFamily="@font/semibold"
+                android:textColor="@color/white"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/img_wea_hour"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="3dp"
                 app:layout_constraintEnd_toEndOf="@+id/txt_weat_hour"
                 app:layout_constraintStart_toStartOf="@+id/txt_weat_hour"
                 app:layout_constraintTop_toBottomOf="@+id/txt_weat_hour"
-                app:srcCompat="@drawable/a02d" />
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/cloudynight"
+                />
 
             <TextView
                 android:id="@+id/txt_weather_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="3dp"
                 android:paddingBottom="8dp"
-                android:text="13 c"
-                android:textColor="@color/navy"
-
+                android:text="15 C"
+                android:fontFamily="@font/semibold"
+                android:textColor="@color/white"
                 android:textSize="16sp"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/txt_weat_hour"
                 app:layout_constraintTop_toBottomOf="@+id/img_wea_hour" />

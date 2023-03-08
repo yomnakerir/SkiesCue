@@ -43,7 +43,8 @@ class WeatherHourAdapter(
         plus(
             getCurrentTemperature(fragment.requireContext())
         )
-        holder.binding.imgWeaHour.setImageResource(getIconImage(weatherHours[position + 1].weather[0].icon!!))
+        //holder.binding.imgWeaHour.setImageResource(getIconImage(weatherHours[position + 1].weather[0].icon!!))
+        holder.binding.imgWeaHour.setAnimation(getIconImage(weatherHours[position + 1].weather[0].icon!!))
     }
 
     override fun getItemCount(): Int {

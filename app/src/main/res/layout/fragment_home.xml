@@ -7,10 +7,165 @@
 
     </data>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nested_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/navy">
-    </androidx.core.widget.NestedScrollView>
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:fillViewport="true"
+       android:scrollbars="none">
+
+
+           <androidx.constraintlayout.widget.ConstraintLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@color/navy" >
+
+
+               <com.airbnb.lottie.LottieAnimationView
+                   android:id="@+id/img_current"
+                   android:layout_width="100dp"
+                   android:layout_height="100dp"
+                   android:layout_marginTop="76dp"
+                   android:layout_marginEnd="40dp"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:lottie_autoPlay="true"
+                   app:lottie_loop="true"
+                   app:lottie_rawRes="@raw/cloudynight" />
+
+               <TextView
+                   android:id="@+id/txt_temp"
+                   android:layout_width="200dp"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="40dp"
+                   android:layout_marginTop="64dp"
+                   android:text="40"
+                   android:fontFamily="@font/semibold"
+                   android:textColor="@color/white"
+                   android:textSize="40sp"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toTopOf="parent" />
+
+               <TextView
+                   android:id="@+id/txt_city"
+                   android:layout_width="200dp"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="40dp"
+                   android:layout_marginTop="4dp"
+                   android:text="Cairo"
+                   android:fontFamily="@font/semibold"
+                   android:textColor="@color/white"
+                   android:textSize="20sp"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@+id/txt_temp" />
+
+               <TextView
+                   android:id="@+id/txt_feelLikes"
+                   android:layout_width="200dp"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="40dp"
+                   android:layout_marginTop="32dp"
+                   android:text="Feels like"
+                   android:fontFamily="@font/semibold"
+                   android:textColor="@color/white"
+                   android:textSize="15sp"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@+id/txt_city" />
+
+               <TextView
+                   android:id="@+id/txt_time"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="40dp"
+                   android:layout_marginTop="8dp"
+                   android:text="9:40 pm 12/3/2032"
+                   android:textColor="@color/white"
+                   android:textSize="10sp"
+                   android:fontFamily="@font/semibold"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@+id/txt_feelLikes" />
+
+
+               <androidx.cardview.widget.CardView
+                   android:id="@+id/hour_card"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="10dp"
+                   android:padding="10dp"
+                   app:cardCornerRadius="30dp"
+                   app:cardElevation="0dp"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:layout_constraintVertical_bias="0.499"
+                   tools:layout_editor_absoluteX="9dp">
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_horizontal"
+                       android:background="@color/deep">
+
+                       <androidx.recyclerview.widget.RecyclerView
+                           android:id="@+id/recy_view_hour_weather"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:layout_gravity="center"
+                           android:layout_marginBottom="16dp"
+                           android:orientation="horizontal"
+                           android:padding="16dp"
+                           app:layout_constraintBottom_toBottomOf="parent"
+                           app:layout_constraintEnd_toEndOf="parent"
+                           app:layout_constraintHorizontal_bias="0.0"
+                           app:layout_constraintStart_toStartOf="parent"
+                           tools:itemCount="1"
+                           tools:listitem="@layout/item_card_hourly" />
+
+
+                   </LinearLayout>
+
+               </androidx.cardview.widget.CardView>
+
+
+               <androidx.cardview.widget.CardView
+                   android:id="@+id/days_card_rv"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="10dp"
+                   android:layout_marginStart="10dp"
+                   android:layout_marginTop="108dp"
+                   android:layout_marginEnd="9dp"
+                   android:padding="10dp"
+                   app:cardCornerRadius="30dp"
+                   app:cardElevation="0dp"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintHorizontal_bias="1.0"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toBottomOf="@+id/hour_card"
+                   app:layout_constraintVertical_bias="0.0">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:background="@color/deep"
+                       >
+                       <androidx.recyclerview.widget.RecyclerView
+                           android:id="@+id/recyViewDailyWeather"
+                           android:layout_width="match_parent"
+                           android:layout_height="match_parent"
+                           tools:itemCount="1"
+                           tools:listitem="@layout/item_card_dialy"
+                           android:scrollbars="vertical"
+                           >
+                       </androidx.recyclerview.widget.RecyclerView>
+
+                   </LinearLayout>
+
+               </androidx.cardview.widget.CardView>
+
+
+
+           </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+   </ScrollView>
+
 </layout>
