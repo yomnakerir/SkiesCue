@@ -18,6 +18,7 @@ import com.example.skiescue.favourite.viewmodel.FavouriteViewModelFactory
 import com.example.skiescue.home.viewmodel.HomeViewModel
 import com.example.skiescue.home.viewmodel.HomeViewModelFactory
 import com.example.skiescue.model.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 const val PERMISSION_ID = 40
@@ -35,9 +36,16 @@ class HomeFragment : Fragment() {
     lateinit var imageViewLottie : LottieAnimationView
     lateinit var weatherDayAdapter: WeatherDayAdapter
     lateinit var recyclerViewDaily : RecyclerView
+    lateinit var sunriseTime : TextView
+    lateinit var sunsetTime : TextView
+    lateinit var wind: TextView
+    lateinit var uvi: TextView
+    lateinit var humidity: TextView
 
 
-
+    companion object TimeOffest{
+      var timeOffestValue = 0
+    }
 
 
     override fun onCreateView(
@@ -53,6 +61,11 @@ class HomeFragment : Fragment() {
         date = binding.txtTime
         recyclerViewHour = binding.recyViewHourWeather
         imageViewLottie = binding.imgCurrent
+        sunriseTime = binding.sunriseTime
+        sunsetTime = binding.sunsetTime
+        uvi = binding.uvindexTxt
+        humidity = binding.humidityTxt
+        wind = binding.windTxt
 
         return binding.root
 
@@ -101,17 +114,36 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(HomeViewModel::class.java)
 
         // here i make  an observer
-       viewModel.getWeatherDetails(30.020847056268064, 31.1904858698064)
+       //viewModel.getWeatherDetails(30.020847056268064, 31.1904858698064)
+
+       // america
+      viewModel.getWeatherDetails(-4.442039, -61.326854)
+
+       // فارسكور
+       //viewModel.getWeatherDetails(31.32805230565252, 31.715162800626036)
+
+       //my location
+      //viewModel.getWeatherDetails(30.791998, 31.9824553)
        viewModel.weatherDetails.observe(viewLifecycleOwner){
 
-
+             timeOffestValue = it.timezone_offset!!
              // Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
               feelsLike.text = "Feels Like " + it.current?.feelsLike.toString()+"°"
               city.text = it.timezone.toString()
               temp.text = it.current?.temp.toString()+"°"
-             val datecon:String =  convertToDate(it.current?.dt!!, requireContext())
-              val timecon:String =  convertToTime(it.current?.dt!!, requireContext())
+              val datecon:String =  convertToDate(it.current?.dt!!, requireContext())
+              val timecon:String =  timestampToReadableTime(it.current?.dt!!)
               date.text = datecon + ", " + timecon
+
+             // sunrise and sunset
+              sunriseTime.text = timestampToReadableTime(it.current.sunrise!!)
+              sunsetTime.text = timestampToReadableTime( it.current.sunset!!)
+
+             // details of day
+             uvi.text = it.current.uvi.toString()
+             humidity.text = it.current.humidity.toString() + "%"
+             wind.text = it.current.windSpeed.toString() + " km/h"
+
 
            // set image
            //imageViewLottie.setAnimation(getIconImage(it.icon.toString()))
@@ -125,6 +157,7 @@ class HomeFragment : Fragment() {
               // weather days set
               bindDailyWeather(it.daily)
           }
+
     }
 
 
@@ -162,7 +195,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-
-
 }
+
+
 

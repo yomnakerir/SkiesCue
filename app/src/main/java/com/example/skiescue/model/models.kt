@@ -5,8 +5,9 @@ import androidx.annotation.Nullable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-
-
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 // models of api
@@ -17,10 +18,11 @@ data class Weather(
     @SerializedName("icon") var icon: String? = null
 )
 
+
 data class Current(
     @SerializedName("dt") var dt: Long,
-    @SerializedName("sunrise") var sunrise: Int? = null,
-    @SerializedName("sunset") var sunset: Int? = null,
+    @SerializedName("sunrise") var sunrise: Long? = null,
+    @SerializedName("sunset") var sunset: Long? = null,
     @SerializedName("temp") var temp: Double? = null,
     @SerializedName("feels_like") var feelsLike: Double? = null,
     @SerializedName("pressure") var pressure: Int? = null,
@@ -109,11 +111,6 @@ data class WeatherResponse(
 )
 
 
-data class SunRise(
-    val name: String,
-    val dt: Long,
-    val image: Image
-)
 
 enum class Units(var unit: String) {
     IMPERIAL("imperial"),

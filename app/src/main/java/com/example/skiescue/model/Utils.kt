@@ -7,9 +7,14 @@ import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.skiescue.R
+import com.example.skiescue.home.view.HomeFragment
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -41,19 +46,22 @@ fun getIconImage(icon: String): Int {
 
 
 // convert to hours
-@SuppressLint("SimpleDateFormat")
+/*@SuppressLint("SimpleDateFormat")
 fun convertToTime(dt: Long, context: Context): String {
     val date = Date(dt * 1000)
     val format = SimpleDateFormat("h:mm a", Locale(getCurrentLan(context)))
     return format.format(date)
+}*/
+
+fun timestampToReadableTime(dt:Long): String {
+   //return  SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date(dt*1000))
+    return SimpleDateFormat("h:mm a",Locale.getDefault()).apply {
+        timeZone.rawOffset = HomeFragment.timeOffestValue
+    }.format(Date(dt*1000))
+
 }
 
 
-fun convertToTimeSecondFormat(dt: Long, context: Context): String {
-    val date = Date(dt * 1000)
-    val format = SimpleDateFormat("h a", Locale(getCurrentLan(context)))
-    return format.format(date)
-}
 
 
 
@@ -62,9 +70,6 @@ fun convertToDate(dt: Long, context: Context): String {
     val date = Date(dt * 1000)
     val format = SimpleDateFormat("d / MM / yyyy", Locale(getCurrentLan(context)))
     return format.format(date)
-
-
-
 }
 
 fun convertToDateSecondForm(dt: Long, context: Context): String {
@@ -72,6 +77,9 @@ fun convertToDateSecondForm(dt: Long, context: Context): String {
     val format = SimpleDateFormat("d ", Locale(getCurrentLan(context)))
     return format.format(date)
 }
+
+
+
 
 
 fun isConnected(context: Context): Boolean {

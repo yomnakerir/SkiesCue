@@ -31,8 +31,12 @@ class WeatherHourAdapter(
     }
 
     override fun onBindViewHolder(holder: WeatherHourAdapter.ViewHolder, position: Int) {
+        /*holder.binding.txtWeatHour.text =
+            convertToTime(weatherHours[position + 1].dt, fragment.requireContext())*/
+
         holder.binding.txtWeatHour.text =
-            convertToTime(weatherHours[position + 1].dt, fragment.requireContext())
+            timestampToReadableTime(weatherHours[position + 1].dt)
+
         var temNumber = ""
         temNumber = if (getCurrentLan(fragment.requireContext()) == "ar") {
             convertNumbersToArabic(weatherHours[position + 1].temp!!)
