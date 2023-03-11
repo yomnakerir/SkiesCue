@@ -1,5 +1,9 @@
 package com.example.skiescue.home.view
 
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.app.LocaleManagerCompat
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.location.LocationManagerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,14 +28,20 @@ import com.example.skiescue.favourite.viewmodel.FavouriteViewModelFactory
 import com.example.skiescue.home.viewmodel.HomeViewModel
 import com.example.skiescue.home.viewmodel.HomeViewModelFactory
 import com.example.skiescue.model.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-const val PERMISSION_ID = 40
+const val PERMISSION_ID = 60
+
+
 
 class HomeFragment : Fragment() {
+
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     lateinit var viewModel: HomeViewModel
@@ -39,13 +53,12 @@ class HomeFragment : Fragment() {
     lateinit var recyclerViewHour : RecyclerView
     lateinit var imageViewLottie : LottieAnimationView
     lateinit var weatherDayAdapter: WeatherDayAdapter
-    lateinit var recyclerViewDaily : RecyclerView
     lateinit var sunriseTime : TextView
     lateinit var sunsetTime : TextView
     lateinit var wind: TextView
     lateinit var uvi: TextView
     lateinit var humidity: TextView
-
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     companion object TimeOffest{
       var timeOffestValue = 0
@@ -58,6 +71,19 @@ class HomeFragment : Fragment() {
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        if(checkPermission()){
+            if(isEnabledLocation()){
+                Toast.makeText(requireContext(), "Permission Granted", Toast.LENGTH_LONG).show()
+                getLastLocation()
+            } else{
+                Toast.makeText(requireContext(), "Should Enable Location", Toast.LENGTH_LONG).show()
+            }
+
+        }else{
+            requestPermission()
+        }
 
         feelsLike = binding.txtFeelLikes
         temp = binding.txtTemp
@@ -121,15 +147,14 @@ class HomeFragment : Fragment() {
        //viewModel.getWeatherDetails(30.020847056268064, 31.1904858698064)
 
        // america
-      //viewModel.getWeatherDetails(16.17710840212786, -90.85717088677875)
+     // viewModel.getWeatherDetails(16.17710840212786, -90.85717088677875)
 
        // tukia
        //viewModel.getWeatherDetails(39.8838319962455, 32.64327850625678)
 
       viewModel.getWeatherDetails(31.32805230565252, 31.715162800626036)
 
-       //my location
-      //viewModel.getWeatherDetails(30.791998, 31.9824553)
+
 
 
     lifecycleScope.launch {
@@ -250,7 +275,62 @@ class HomeFragment : Fragment() {
         }
     }
 
+
+
+    // location
+    fun requestPermission(){
+
+        ActivityCompat.requestPermissions(requireActivity(), listOf(
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+        ).toTypedArray()
+            , PERMISSION_ID
+        )
+    }
+
+    fun getLastLocation(){
+             fusedLocationProviderClient
+                 .getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                 .addOnSuccessListener {
+            Toast.makeText(requireContext(), "${it.longitude} and ${it.latitude}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun isEnabledLocation():Boolean{
+      val locationManager =  activity!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return LocationManagerCompat.isLocationEnabled(locationManager)
+    }
+
+    fun checkPermission():Boolean{
+        val findLoc =  ActivityCompat.checkSelfPermission(requireContext(),
+            android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+
+        val crossLoc = ActivityCompat.checkSelfPermission(requireContext(),
+            android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+
+        return findLoc && crossLoc
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == PERMISSION_ID){
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+             getLastLocation()
+        }
+        }
+
+
+    }
+
+
+
+
 }
+
 
 
 

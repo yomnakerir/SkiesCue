@@ -13,7 +13,7 @@ interface ApiCalls {
         suspend fun getWeatherDetalis(
             @Query("lat") lat: Double,
             @Query("lon") lon: Double,
-            @Query("lang") language: String="ar",
+            @Query("lang") language: String="en",
             @Query("units") units: String = "metric",
             @Query("exclude") exclude: String ?= null,
             @Query("appid") appid: String = Constants.appId
