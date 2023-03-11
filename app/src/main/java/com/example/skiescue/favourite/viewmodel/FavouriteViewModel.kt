@@ -6,17 +6,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.skiescue.data.local.Favourite
 import com.example.skiescue.model.Repository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
 class FavouriteViewModel (private val repo: Repository): ViewModel(){
 
-   private val _favouriteList = MutableLiveData<List<Favourite>>()
-            val favouriteList:LiveData<List<Favourite>>
+   private val _favouriteList = MutableStateFlow<List<Favourite>>(emptyList())
+            val favouriteList:StateFlow<List<Favourite>>
             get() = _favouriteList
 
    fun getFavouriteList(){
        viewModelScope.launch {
-           _favouriteList.value = repo.getFavourites()
+           repo.getFavourites()
+               .collect{
+               _favouriteList.value = it
+           }
        }
    }
 

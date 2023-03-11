@@ -54,11 +54,11 @@ fun convertToTime(dt: Long, context: Context): String {
 }*/
 
 fun timestampToReadableTime(dt:Long): String {
-   //return  SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date(dt*1000))
-    return SimpleDateFormat("h:mm a",Locale.getDefault()).apply {
+   return  SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date(dt*1000))
+   /* return SimpleDateFormat("h:mm a",Locale.getDefault()).apply {
         timeZone.rawOffset = HomeFragment.timeOffestValue
     }.format(Date(dt*1000))
-
+*/
 }
 
 

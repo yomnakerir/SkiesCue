@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.skiescue.R
 import com.example.skiescue.databinding.FragmentFavouriteBinding
@@ -14,6 +15,8 @@ import com.example.skiescue.databinding.FragmentSettingBinding
 import com.example.skiescue.favourite.viewmodel.FavouriteViewModel
 import com.example.skiescue.favourite.viewmodel.FavouriteViewModelFactory
 import com.example.skiescue.model.Repository
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
 class FavouriteFragment : Fragment() {
@@ -22,12 +25,6 @@ class FavouriteFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: FavouriteViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,8 +44,15 @@ class FavouriteFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(FavouriteViewModel::class.java)
 
         viewModel.getFavouriteList()
-        viewModel.favouriteList.observe(viewLifecycleOwner){
-            Toast.makeText(requireContext(),"length of fav is ${it.size}", Toast.LENGTH_LONG).show()
+        lifecycleScope.launch {
+            viewModel.favouriteList.collect{
+                Toast.makeText(requireContext(),"length of fav is ${it.size}", Toast.LENGTH_LONG).show()
+            }
         }
+
+
+       /* viewModel.favouriteList.observe(viewLifecycleOwner){
+            Toast.makeText(requireContext(),"length of fav is ${it.size}", Toast.LENGTH_LONG).show()
+        }*/
     }
 }

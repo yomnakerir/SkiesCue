@@ -6,6 +6,8 @@ import com.example.skiescue.data.local.Favourite
 import com.example.skiescue.data.local.RoomDB
 import com.example.skiescue.data.network.ApiCalls
 import com.example.skiescue.data.network.RetrofitInstance
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 import retrofit2.Response
 
@@ -21,7 +23,7 @@ class Repository (context: Context){
 
     // functions from fav dao
 
-    suspend fun getFavourites():List<Favourite>{
+     fun getFavourites(): Flow<List<Favourite>> {
        return room.favouriteDao().getFavourites()
     }
 
@@ -38,18 +40,17 @@ class Repository (context: Context){
     // functions from Api calls
 
 
-    suspend fun getWeatherDetalis(
+    fun getWeatherDetalis(
          lat: Double,
          lon: Double,
-        //@Query("lang") language: String="ar",
-        //@Query("units") units: String,
+        // language: String="ar",
+        // units: String,
         exclude: String ?= null,
-    ): WeatherResponse {
+    ) = flow {
         val response =  remote.getWeatherDetalis(lat = lat, lon = lon, exclude = exclude)
-
         if(response.isSuccessful){
-            return response.body() ?: WeatherResponse()
-        }
-        return WeatherResponse()
+            emit(response.body() ?: WeatherResponse() )
+        }else{
+        emit( WeatherResponse() ) }
     }
 }

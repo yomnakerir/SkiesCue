@@ -4,9 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.skiescue.data.ApiResponse
 import com.example.skiescue.data.local.Favourite
 import com.example.skiescue.model.Repository
 import com.example.skiescue.model.WeatherResponse
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repo: Repository) : ViewModel() {
@@ -18,9 +23,11 @@ class HomeViewModel(private val repo: Repository) : ViewModel() {
         locationProvide.value = item
     }
 
-    private val _weatherDetails = MutableLiveData<WeatherResponse>()
-    val weatherDetails:LiveData<WeatherResponse>
+    private val _weatherDetails = MutableStateFlow<ApiResponse<WeatherResponse>>(ApiResponse.OnLoading())
+    val weatherDetails:StateFlow<ApiResponse<WeatherResponse>>
     get() = _weatherDetails
+
+
 
     fun getWeatherDetails(
         lat:Double,
@@ -29,13 +36,15 @@ class HomeViewModel(private val repo: Repository) : ViewModel() {
          // here the data come , i wil send it by live data
         viewModelScope.launch {
            // _weatherDetails.value = repo.getWeatherDetalis(lat, lon, exclude)
-
-            // for test
-            val data = repo.getWeatherDetalis(lat, lon, exclude)
-            repo.insertFavourite(Favourite(weather = data))
-            _weatherDetails.value = data
-
-
+            // for test insertion
+            repo.getWeatherDetalis(lat, lon, exclude)
+                .catch {
+                    _weatherDetails.value = ApiResponse.onError(it.message.toString())
+                }
+                .collect(){
+                    repo.insertFavourite(Favourite(weather = it))
+                    _weatherDetails.value = ApiResponse.OnSucess(it)
+                }
         }
 
     }

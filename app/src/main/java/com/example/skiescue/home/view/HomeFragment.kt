@@ -8,16 +8,20 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.example.skiescue.R
+import com.example.skiescue.data.ApiResponse
 import com.example.skiescue.databinding.FragmentHomeBinding
 import com.example.skiescue.databinding.ItemCardGridSunriseSunsetBinding
 import com.example.skiescue.favourite.viewmodel.FavouriteViewModelFactory
 import com.example.skiescue.home.viewmodel.HomeViewModel
 import com.example.skiescue.home.viewmodel.HomeViewModelFactory
 import com.example.skiescue.model.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -117,14 +121,65 @@ class HomeFragment : Fragment() {
        //viewModel.getWeatherDetails(30.020847056268064, 31.1904858698064)
 
        // america
-      viewModel.getWeatherDetails(-4.442039, -61.326854)
+      //viewModel.getWeatherDetails(16.17710840212786, -90.85717088677875)
 
-       // فارسكور
-       //viewModel.getWeatherDetails(31.32805230565252, 31.715162800626036)
+       // tukia
+       //viewModel.getWeatherDetails(39.8838319962455, 32.64327850625678)
+
+      viewModel.getWeatherDetails(31.32805230565252, 31.715162800626036)
 
        //my location
       //viewModel.getWeatherDetails(30.791998, 31.9824553)
-       viewModel.weatherDetails.observe(viewLifecycleOwner){
+
+
+    lifecycleScope.launch {
+         viewModel.weatherDetails.collect{
+           state->
+             when(state){
+                 is ApiResponse.OnSucess -> {
+
+                     timeOffestValue = state.data.timezone_offset!!
+                     // Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+                     feelsLike.text = "Feels Like " + state.data.current?.feelsLike.toString()+"°"
+                     city.text = state.data.timezone.toString()
+                     temp.text =state.data.current?.temp.toString()+"°"
+                     val datecon:String =  convertToDate(state.data.current?.dt!!, requireContext())
+                     val timecon:String =  timestampToReadableTime(state.data.current?.dt!!)
+                     date.text = datecon + ", " + timecon
+
+                     // sunrise and sunset
+                     sunriseTime.text = timestampToReadableTime(state.data.current!!.sunrise!!)
+                     sunsetTime.text = timestampToReadableTime( state.data.current!!.sunset!!)
+
+                     // details of day
+                     uvi.text = state.data.current!!.uvi.toString()
+                     humidity.text = state.data.current!!.humidity.toString() + "%"
+                     wind.text = state.data.current!!.windSpeed.toString() + " km/h"
+
+
+                     // set image
+                     //imageViewLottie.setAnimation(getIconImage(it.icon.toString()))
+
+
+                     //recyclerView.adapter(ItemCardGridSunriseSunsetBinding.)
+
+                     // weather hour set
+                     bindHourlyWeather(state.data.hourly)
+
+                     // weather days set
+                     bindDailyWeather(state.data.daily)
+
+                 }
+                 is ApiResponse.onError -> {}
+                 is ApiResponse.OnLoading-> {}
+             }
+
+         }
+     }
+
+
+        // here what i made using observe of lif data
+       /* viewModel.weatherDetails.observe(viewLifecycleOwner){
 
              timeOffestValue = it.timezone_offset!!
              // Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
@@ -147,7 +202,7 @@ class HomeFragment : Fragment() {
 
            // set image
            //imageViewLottie.setAnimation(getIconImage(it.icon.toString()))
-           //holder.binding.imgWeaHour.setAnimation(getIconImage(weatherHours[position + 1].weather[0].icon!!))
+
 
               //recyclerView.adapter(ItemCardGridSunriseSunsetBinding.)
 
@@ -156,7 +211,7 @@ class HomeFragment : Fragment() {
 
               // weather days set
               bindDailyWeather(it.daily)
-          }
+          }   */
 
     }
 
