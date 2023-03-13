@@ -34,20 +34,21 @@ class Repository (context: Context){
 
     suspend fun deleteFavourite(favourite: Favourite){
         room.favouriteDao().deleteFavourite(favourite)
-
     }
 
+
+
+
+
     // functions from Api calls
-
-
     fun getWeatherDetalis(
          lat: Double,
          lon: Double,
         // language: String="ar",
-        // units: String,
+         units: String,
         exclude: String ?= null,
     ) = flow {
-        val response =  remote.getWeatherDetalis(lat = lat, lon = lon, exclude = exclude)
+        val response =  remote.getWeatherDetalis(lat = lat, lon = lon, exclude = exclude, units = units)
         if(response.isSuccessful){
             emit(response.body() ?: WeatherResponse() )
         }else{

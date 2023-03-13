@@ -14,7 +14,7 @@ interface ApiCalls {
             @Query("lat") lat: Double,
             @Query("lon") lon: Double,
             @Query("lang") language: String="en",
-            @Query("units") units: String = "metric",
+            @Query("units") units: String,
             @Query("exclude") exclude: String ?= null,
             @Query("appid") appid: String = Constants.appId
         ): Response<WeatherResponse>

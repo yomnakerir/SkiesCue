@@ -152,7 +152,7 @@ class HomeFragment : Fragment() {
        // tukia
        //viewModel.getWeatherDetails(39.8838319962455, 32.64327850625678)
 
-      viewModel.getWeatherDetails(31.32805230565252, 31.715162800626036)
+      viewModel.getWeatherDetails(31.32805230565252, 31.715162800626036, "", "metric")
 
 
 

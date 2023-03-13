@@ -32,19 +32,25 @@ class HomeViewModel(private val repo: Repository) : ViewModel() {
     fun getWeatherDetails(
         lat:Double,
         lon: Double,
-        exclude: String ?= null ){
+        exclude: String ?= null,
+        units: String,
+        ){
          // here the data come , i wil send it by live data
         viewModelScope.launch {
            // _weatherDetails.value = repo.getWeatherDetalis(lat, lon, exclude)
+
             // for test insertion
-            repo.getWeatherDetalis(lat, lon, exclude)
+            repo.getWeatherDetalis(lat, lon, exclude!!, units)
                 .catch {
                     _weatherDetails.value = ApiResponse.onError(it.message.toString())
                 }
                 .collect(){
                     repo.insertFavourite(Favourite(weather = it))
                     _weatherDetails.value = ApiResponse.OnSucess(it)
+                    //repo.deleteFavourite(Favourite(weather = it))
                 }
+
+
         }
 
     }

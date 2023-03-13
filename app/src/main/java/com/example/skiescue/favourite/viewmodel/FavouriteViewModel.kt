@@ -1,15 +1,18 @@
 package com.example.skiescue.favourite.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.skiescue.data.local.Favourite
 import com.example.skiescue.model.Repository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import com.example.skiescue.model.Result
 
 class FavouriteViewModel (private val repo: Repository): ViewModel(){
 
@@ -37,4 +40,9 @@ class FavouriteViewModel (private val repo: Repository): ViewModel(){
            repo.insertFavourite(favourite)
        }
    }
+
+
+
+
+
 }

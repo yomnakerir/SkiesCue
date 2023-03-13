@@ -29,9 +29,24 @@
         <action
             android:id="@+id/action_favouriteFragment_to_navigation_home"
             app:destination="@id/home_fragment" />
+        <action
+            android:id="@+id/action_favourite_fragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
     </fragment>
     <fragment
         android:id="@+id/alerts_fragment"
         android:name="com.example.skiescue.alert.view.AlertFragment"
         android:label="AlertFragment" />
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.skiescue.map.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" >
+        <action
+            android:id="@+id/action_mapsFragment_to_favourite_fragment"
+            app:destination="@id/favourite_fragment" />
+        <action
+            android:id="@+id/action_mapsFragment_to_home_fragment"
+            app:destination="@id/home_fragment" />
+    </fragment>
 </navigation>
