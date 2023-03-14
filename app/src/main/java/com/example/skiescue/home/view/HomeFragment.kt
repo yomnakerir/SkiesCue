@@ -59,10 +59,65 @@ class HomeFragment : Fragment() {
     lateinit var uvi: TextView
     lateinit var humidity: TextView
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+     private var lat : Double = 0.0
+     private var long: Double = 0.0
 
     companion object TimeOffest{
-      var timeOffestValue = 0
+        var timeOffestValue = 0
+
     }
+    // location
+    fun requestPermission(){
+
+        ActivityCompat.requestPermissions(requireActivity(), listOf(
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+        ).toTypedArray()
+            , PERMISSION_ID
+        )
+    }
+
+    fun getLastLocation(){
+        fusedLocationProviderClient
+            .getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+            .addOnSuccessListener {
+                lat = it.latitude
+                long = it.longitude
+                Toast.makeText(requireContext(), "${it.longitude} and ${it.latitude}", Toast.LENGTH_LONG).show()
+            }
+    }
+
+    fun isEnabledLocation():Boolean{
+        val locationManager =  activity!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return LocationManagerCompat.isLocationEnabled(locationManager)
+    }
+
+    fun checkPermission():Boolean{
+        val findLoc =  ActivityCompat.checkSelfPermission(requireContext(),
+            android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+
+        val crossLoc = ActivityCompat.checkSelfPermission(requireContext(),
+            android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+
+        return findLoc && crossLoc
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == PERMISSION_ID){
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                getLastLocation()
+            }
+        }
+
+
+    }
+
+
 
 
     override fun onCreateView(
@@ -99,36 +154,7 @@ class HomeFragment : Fragment() {
 
         return binding.root
 
-        // catch data and display it (Test) retrofit
-        /* val remote = RetrofitInstance().apiCall()
-          val room = RoomDB.invoke(requireContext())
 
-          val repository = Repository(requireContext())
-
-          lifecycleScope.launch {
-           val dataResponse =  async {  repository.getWeatherDetalis(30.668351057603832, 32.227911043392865)}
-              if(dataResponse.await().isSuccessful){
-                  val allData = dataResponse.await().body()
-                  // catch data retrofit
-                  Toast.makeText(requireContext(), allData.toString(), Toast.LENGTH_LONG).show()
-
-                  // insert in database
-                  allData?.let {
-                      repository.insertFavourite(Favourite(weather = allData))
-                  }
-
-                  delay(3000)
-
-                  // retrive from data base
-                 val favouritesResponse = async{repository.getFavourites()}
-                  Toast.makeText(requireContext(), "data in fav table : ${favouritesResponse.await().size}}", Toast.LENGTH_LONG).show()
-                   delay(3000)
-
-                  //delete from database
-                  repository.deleteFavourite(favourite = favouritesResponse.await().get(0))
-              }
-
-           } */
 
     }
 
@@ -147,7 +173,8 @@ class HomeFragment : Fragment() {
        //viewModel.getWeatherDetails(30.020847056268064, 31.1904858698064)
 
        // america
-      viewModel.getWeatherDetails(16.17710840212786, -90.85717088677875, "", "metric")
+       println("-----------------------------${lat}     ${long}")
+      viewModel.getWeatherDetails(lat, long , "", "metric")
 
        // tukia
        //viewModel.getWeatherDetails(39.8838319962455, 32.64327850625678, "", "metric")
@@ -276,55 +303,6 @@ class HomeFragment : Fragment() {
     }
 
 
-
-    // location
-    fun requestPermission(){
-
-        ActivityCompat.requestPermissions(requireActivity(), listOf(
-            android.Manifest.permission.ACCESS_FINE_LOCATION,
-            android.Manifest.permission.ACCESS_COARSE_LOCATION,
-        ).toTypedArray()
-            , PERMISSION_ID
-        )
-    }
-
-    fun getLastLocation(){
-             fusedLocationProviderClient
-                 .getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-                 .addOnSuccessListener {
-            Toast.makeText(requireContext(), "${it.longitude} and ${it.latitude}", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    fun isEnabledLocation():Boolean{
-      val locationManager =  activity!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return LocationManagerCompat.isLocationEnabled(locationManager)
-    }
-
-    fun checkPermission():Boolean{
-        val findLoc =  ActivityCompat.checkSelfPermission(requireContext(),
-            android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-
-        val crossLoc = ActivityCompat.checkSelfPermission(requireContext(),
-            android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-
-        return findLoc && crossLoc
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == PERMISSION_ID){
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-             getLastLocation()
-        }
-        }
-
-
-    }
 
 
 
