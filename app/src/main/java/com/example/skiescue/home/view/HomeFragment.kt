@@ -147,12 +147,12 @@ class HomeFragment : Fragment() {
        //viewModel.getWeatherDetails(30.020847056268064, 31.1904858698064)
 
        // america
-     // viewModel.getWeatherDetails(16.17710840212786, -90.85717088677875)
+      viewModel.getWeatherDetails(16.17710840212786, -90.85717088677875, "", "metric")
 
        // tukia
-       //viewModel.getWeatherDetails(39.8838319962455, 32.64327850625678)
+       //viewModel.getWeatherDetails(39.8838319962455, 32.64327850625678, "", "metric")
 
-      viewModel.getWeatherDetails(31.32805230565252, 31.715162800626036, "", "metric")
+     // viewModel.getWeatherDetails(31.32805230565252, 31.715162800626036, "", "metric")
 
 
 

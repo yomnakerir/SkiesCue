@@ -6,58 +6,74 @@
     <data>
 
     </data>
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+       <ScrollView
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/blueTran">
+           <androidx.constraintlayout.widget.ConstraintLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:background="@color/blueTran">
 
-        <TextView
-            android:id="@+id/fav_title"
-            android:fontFamily="@font/moodboard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="My Favourites"
-            android:textColor="@color/deep"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.053" />
+               <TextView
+                   android:id="@+id/fav_title"
+                   android:fontFamily="@font/moodboard"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="16dp"
+                   android:layout_marginBottom="16dp"
+                   android:text="My Favourites"
+                   android:textColor="@color/deep"
+                   android:textSize="25sp"
+                   android:textStyle="bold"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintHorizontal_bias="0.498"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintTop_toTopOf="parent"
+                   app:layout_constraintVertical_bias="0.053" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rec_fav_weathers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fav_title"
-            />
+               <androidx.recyclerview.widget.RecyclerView
+                   android:id="@+id/rec_fav_weathers"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="16dp"
+                   android:layout_marginTop="48dp"
+                   android:layout_marginEnd="16dp"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintHorizontal_bias="0.0"
+                   app:layout_constraintStart_toStartOf="parent"
+                   tools:listitem="@layout/item_card_favourite"
+                   tools:itemCount="2"
+                   app:layout_constraintTop_toBottomOf="@+id/fav_title"
+                   />
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="30dp"
-            android:backgroundTint="@color/deep"
-            android:elevation="3dp"
-            android:src="@drawable/ic_baseline_add_location_alt_24"
-            app:fabCustomSize="55dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:maxImageSize="25dp"
-            tools:ignore="SpeakableTextPresentCheck" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+           </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+       </ScrollView>
+
+
+       <com.google.android.material.floatingactionbutton.FloatingActionButton
+           android:id="@+id/fab_add_location"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginEnd="30dp"
+           android:layout_marginBottom="30dp"
+           android:backgroundTint="@color/deep"
+           android:elevation="3dp"
+           android:src="@drawable/ic_baseline_add_location_alt_24"
+           app:fabCustomSize="55dp"
+           android:layout_alignParentRight="true"
+           android:layout_alignParentBottom="true"
+
+           app:maxImageSize="25dp"
+           tools:ignore="SpeakableTextPresentCheck" />
+   </RelativeLayout>
+
 </layout>

@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 
-@Database(entities = [Favourite::class], version = 1, exportSchema = false)
+@Database(entities = [Favourite::class], version = 13, exportSchema = false)
 @TypeConverters(Converter::class)
 abstract class RoomDB:RoomDatabase(){
     abstract fun favouriteDao():FavouriteDao

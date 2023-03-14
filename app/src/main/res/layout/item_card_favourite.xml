@@ -12,11 +12,10 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardFavView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_margin="8dp"
         android:padding="16dp"
         android:layout_marginTop="16dp"
-
         app:cardBackgroundColor="@android:color/transparent"
         app:cardElevation="0dp"
         app:cardCornerRadius="16dp"
@@ -28,17 +27,18 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/blueTran">
+            android:background="@color/deep">
 
             <TextView
                 android:id="@+id/txt_fav_timeZone"
-                android:layout_width="300dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:textColor="@color/deep"
+                android:textColor="@color/white"
+                android:fontFamily="@font/semibold"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/img_delete"
@@ -46,15 +46,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="h" />
 
-            <ImageView
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/img_delete"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_delete_24" />
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/delete" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

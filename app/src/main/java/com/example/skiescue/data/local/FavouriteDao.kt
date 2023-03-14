@@ -14,4 +14,5 @@ interface FavouriteDao {
 
     @Delete
     suspend fun deleteFavourite(favourite: Favourite)
+
 }

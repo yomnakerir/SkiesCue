@@ -52,7 +52,6 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginStart="8dp"
-                android:src="@drawable/a02d"
                 app:layout_constraintBottom_toBottomOf="@+id/txt_one_day"
                 app:layout_constraintStart_toEndOf="@+id/txt_one_history"
                 app:layout_constraintTop_toTopOf="@+id/txt_one_day"

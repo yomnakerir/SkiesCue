@@ -1,5 +1,7 @@
 package com.example.skiescue.map
 
+import android.location.Address
+import android.location.Geocoder
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
@@ -7,9 +9,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.Navigation
 import com.example.skiescue.R
+import com.example.skiescue.data.ApiResponse
+import com.example.skiescue.data.local.Favourite
+import com.example.skiescue.favourite.viewmodel.FavouriteViewModel
+import com.example.skiescue.favourite.viewmodel.FavouriteViewModelFactory
+import com.example.skiescue.model.Repository
+import com.example.skiescue.model.WeatherResponse
 import com.example.skiescue.model.initFavSharedPref
 import com.example.skiescue.model.initSharedPref
 
@@ -19,37 +32,23 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
+import java.io.IOException
+import java.util.*
 
 class MapsFragment : DialogFragment() {
     lateinit var saveBtn:Button
-   /* private val callback = OnMapReadyCallback { googleMap ->
+    lateinit var searchBar: SearchView
+    lateinit var geocoder:Geocoder
+    lateinit var favouriteViewModel: FavouriteViewModel
+    //lateinit var repo: Repository
 
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-
-        googleMap.setOnMapClickListener {
-//1 means GPS //2 means MAPS //3 draw Location
-            // inti marker option
-            var lat: Float = 0f
-            var long: Float = 0f
-            val marker = MarkerOptions().apply {
-                position(it)
-                lat = it.latitude.toFloat()
-                long = it.longitude.toFloat()
-                title((lat).plus(long).toString())
-                googleMap.clear()
-                googleMap.animateCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        it, 10f
-                    )
-                )
-            }
-            googleMap.addMarker(marker)
-    }
-
-    } */
-
+    companion object CityName{
+         var city:String = ""     }
 
 
     override fun onCreateView(
@@ -59,21 +58,44 @@ class MapsFragment : DialogFragment() {
     ): View? {
         var v:View = inflater.inflate(R.layout.fragment_maps, container, false)
         saveBtn = v.findViewById(R.id.btn_save)
+        searchBar = v.findViewById(R.id.search_view)
+        favouriteViewModel = ViewModelProvider(this, FavouriteViewModelFactory(Repository(requireContext())))
+            .get(FavouriteViewModel::class.java)
         return v;
     }
-
     private val callback = OnMapReadyCallback { googleMap ->
 
+        searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                val location:String = searchBar.query.toString()
+                var addressList : List<Address>
+
+                if(location != null || location != ""){
+
+                    geocoder = Geocoder(requireContext())
+                    addressList = geocoder.getFromLocationName(location, 1)!!
+                    var address:Address = addressList.get(0)
+                     city = addressList.get(0).getAddressLine(0)
+                    var latLng:LatLng = LatLng(address.latitude, address.longitude)
+                    googleMap.addMarker(MarkerOptions().position(latLng).title(location))
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10F))
+
+                }
+                return false
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
 
         googleMap.setOnMapClickListener {
-//1 means GPS //2 means MAPS //3 draw Location
-            // inti marker option
-            var lat: Float = 0f
-            var long: Float = 0f
+            var lat: Double = 0.0
+            var long: Double = 0.0
+
             val marker = MarkerOptions().apply {
                 position(it)
-                lat = it.latitude.toFloat()
-                long = it.longitude.toFloat()
+                lat = it.latitude
+                long = it.longitude
                 title((lat).plus(long).toString())
                 googleMap.clear()
                 googleMap.animateCamera(
@@ -83,15 +105,22 @@ class MapsFragment : DialogFragment() {
                 )
             }
             googleMap.addMarker(marker)
-            //changeSaveCondition(false)
+
 
             saveBtn.setOnClickListener {
-                handleSaveClickable(lat, long)
+                lifecycleScope.launch {
+                    favouriteViewModel.insertFavourite(Favourite(latitude = lat, longitude = long, city = city))
+                }
+
+                Toast.makeText(requireContext(),"inserted success", Toast.LENGTH_LONG ).show()
             }
         }
 
+        googleMap.mapType
 
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -100,45 +129,5 @@ class MapsFragment : DialogFragment() {
     }
 
 
-    private fun changeSaveCondition(visible: Boolean) {
-        if (visible) {
-            saveBtn.visibility = View.INVISIBLE
-            saveBtn.isClickable = false
-        } else {
-            saveBtn.visibility = View.VISIBLE
-            saveBtn.isClickable = true
-        }
-    }
 
-    private fun handleSaveClickable(lat: Float, long: Float) {
-
-        when (Navigation.findNavController(requireView()).previousBackStackEntry?.destination?.id) {
-            R.id.favourite_fragment-> {
-                Navigation.findNavController(requireView())
-                    .navigate(R.id.action_mapsFragment_to_favourite_fragment)
-                initFavSharedPref(requireContext())
-                    .edit()
-                    .apply {
-                        putFloat(getString(R.string.LON), long)
-                        putFloat(getString(R.string.LAT), lat)
-                        putInt("SIGN",2)
-                        apply()
-                    }
-            }
-            else -> {
-                Navigation.findNavController(requireView())
-                    .navigate(R.id.action_mapsFragment_to_home_fragment)
-                initSharedPref(requireContext())
-                    .edit()
-                    .apply {
-                        putFloat(getString(R.string.LON), long)
-                        putFloat(getString(R.string.LAT), lat)
-                        putInt(getString(R.string.LOCATION), 3)
-                        apply()
-                    }
-            }
-        }
-
-        changeSaveCondition(true)
-    }
 }

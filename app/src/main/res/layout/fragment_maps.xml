@@ -19,10 +19,29 @@
     android:layout_height="match_parent"
     tools:context=".map.MapsFragment" />
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="320dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="2dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+        <SearchView
+            android:layout_width="match_parent"
+            android:id="@+id/search_view"
+            android:queryHint="Search.."
+            android:iconifiedByDefault="false"
+            android:layout_height="50dp" >
+
+        </SearchView>
+
+    </androidx.cardview.widget.CardView>
     <Button
         android:id="@+id/btn_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="16dp"
         android:clickable="false"
         android:text="@string/save"

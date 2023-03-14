@@ -8,5 +8,7 @@ import com.example.skiescue.model.WeatherResponse
 data class Favourite(
     @PrimaryKey(autoGenerate = true)
     val id: Int?= null,
-    val weather:WeatherResponse
+    val latitude: Double ?= null,
+    val longitude: Double ?= null,
+    val city:String ?= null
 )
