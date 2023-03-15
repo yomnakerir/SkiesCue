@@ -5,34 +5,97 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.skiescue.databinding.FragmentAlertBinding
+import com.example.skiescue.dialog.view.AlertTimeDialog
+import com.example.skiescue.dialog.viewmodel.AlertViewModel
+import com.example.skiescue.dialog.viewmodel.AlertViewModelFactory
+import com.example.skiescue.favourite.viewmodel.FavouriteViewModel
+import com.example.skiescue.favourite.viewmodel.FavouriteViewModelFactory
+import com.example.skiescue.model.Repository
+import kotlinx.coroutines.launch
 
 
 class AlertFragment : Fragment() {
 
     private var _binding: FragmentAlertBinding?= null
     private val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
+    private lateinit var alertAdapter: AlertAdapter
+    private lateinit var viewModel: AlertViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         _binding = FragmentAlertBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AlertFragment().apply {
-                arguments = Bundle().apply {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initAlertWeatherRecycle()
+
+        // view model factory
+        val repository = Repository(requireContext())
+        val viewModelFactory = AlertViewModelFactory(repository = repository)
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(AlertViewModel::class.java)
+
+
+        binding.fabAddAlert.setOnClickListener {
+
+                AlertTimeDialog().show(
+                    requireActivity().supportFragmentManager,
+                    "MyAlertDialogFragment")
+        }
+
+
+
+        lifecycleScope.launch {
+            viewModel.stateGetAlert.collect(){
+                if (it.isNullOrEmpty()) {
+
+                    binding.recAlertWeathers.visibility = View.GONE
+                } else {
+
+                    binding.recAlertWeathers.visibility = View.VISIBLE
+
+
+                    bindAlertWeathers(it)
                 }
             }
+
+        }
+    }
+
+    private fun initAlertWeatherRecycle() {
+        alertAdapter = AlertAdapter(requireParentFragment(), deleteAction)
+        binding.recAlertWeathers.apply {
+            this.adapter = alertAdapter
+            this.layoutManager = LinearLayoutManager(
+                requireParentFragment().requireContext(),
+                RecyclerView.VERTICAL, false
+            )
+        }
+    }
+
+
+    // lambda
+    private var deleteAction: (AlertModel) -> Unit = {
+        viewModel.deleteAlert(it)
+//        WorkManager.getInstance()?.cancelUniqueWork(id.toString())
+
+        Toast.makeText(requireContext(), "Deleted Successfully", Toast.LENGTH_SHORT)
+            .show()
+
+    }
+
+
+    private fun bindAlertWeathers(alertWeathers: List<AlertModel>) {
+        alertAdapter.setWeatherAlerts(alertWeathers)
     }
 }
