@@ -1,6 +1,6 @@
 package com.example.skiescue
 
 object Constants {
-    const val appId = "bec88e8dd2446515300a492c3862a10e"
+    const val appId = "698e3af38374a53ef1b6cc63e337b71c"
     const val excludeMinutes = "minutely"
 }

@@ -3,6 +3,8 @@ package com.example.skiescue.home.view
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
+import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -77,15 +79,26 @@ class HomeFragment : Fragment() {
         )
     }
 
-    fun getLastLocation(){
+    fun getLastLocation() {
         fusedLocationProviderClient
             .getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-            .addOnSuccessListener {
-                lat = it.latitude
-                long = it.longitude
-                Toast.makeText(requireContext(), "${it.longitude} and ${it.latitude}", Toast.LENGTH_LONG).show()
+            .addOnCompleteListener {
+                val location: Location? = it.result
+                //Toast.makeText(requireContext(), "${it.longitude} and ${it.latitude}", Toast.LENGTH_LONG).show()
+                if (location == null) {
+                    Toast.makeText(requireContext(), "Null recived", Toast.LENGTH_LONG).show()
+                } else {
+                    val geocoder = Geocoder(requireContext())
+                    val addresses =
+                        geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                    lat = location.latitude
+                    long = location.longitude
+                }
+
+
             }
     }
+
 
     fun isEnabledLocation():Boolean{
         val locationManager =  activity!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -126,6 +139,8 @@ class HomeFragment : Fragment() {
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding
+
+        //println("*********************************************** ${lat}     ${long}")
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
         if(checkPermission()){
@@ -173,13 +188,13 @@ class HomeFragment : Fragment() {
        //viewModel.getWeatherDetails(30.020847056268064, 31.1904858698064)
 
        // america
-       println("-----------------------------${lat}     ${long}")
-      viewModel.getWeatherDetails(lat, long , "", "metric")
+      // println("-----------------------------${lat}     ${long}")
+      //viewModel.getWeatherDetails(lat, long , "", "metric")
 
        // tukia
        //viewModel.getWeatherDetails(39.8838319962455, 32.64327850625678, "", "metric")
 
-     // viewModel.getWeatherDetails(31.32805230565252, 31.715162800626036, "", "metric")
+      viewModel.getWeatherDetails(31.32805230565252, 31.715162800626036, "", "metric")
 
 
 
@@ -190,23 +205,23 @@ class HomeFragment : Fragment() {
              when(state){
                  is ApiResponse.OnSucess -> {
 
-                     timeOffestValue = state.data.timezone_offset!!
+                     timeOffestValue = state.data.timezone_offset?:0
                      // Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
                      feelsLike.text = "Feels Like " + state.data.current?.feelsLike.toString()+"°"
                      city.text = state.data.timezone.toString()
                      temp.text =state.data.current?.temp.toString()+"°"
-                     val datecon:String =  convertToDate(state.data.current?.dt!!, requireContext())
-                     val timecon:String =  timestampToReadableTime(state.data.current?.dt!!)
+                    val datecon:String =  convertToDate(state.data.current?.dt?:0, requireContext())
+                     val timecon:String =  timestampToReadableTime(state.data.current?.dt?:0)
                      date.text = datecon + ", " + timecon
 
                      // sunrise and sunset
-                     sunriseTime.text = timestampToReadableTime(state.data.current!!.sunrise!!)
-                     sunsetTime.text = timestampToReadableTime( state.data.current!!.sunset!!)
+                     sunriseTime.text = timestampToReadableTime(state.data.current?.sunrise?:0)
+                     sunsetTime.text = timestampToReadableTime( state.data.current?.sunset?:0)
 
                      // details of day
-                     uvi.text = state.data.current!!.uvi.toString()
-                     humidity.text = state.data.current!!.humidity.toString() + "%"
-                     wind.text = state.data.current!!.windSpeed.toString() + " km/h"
+                     uvi.text = state.data.current?.uvi?.toString()+""?:""
+                     humidity.text = state.data.current?.humidity?.toString() + " %"?:( " " + "%")
+                     wind.text = state.data.current?.windSpeed?.toString() + " km/h" ?: ( " " + " km/h")
 
 
                      // set image

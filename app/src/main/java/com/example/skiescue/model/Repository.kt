@@ -1,15 +1,13 @@
 package com.example.skiescue.model
 
 import android.content.Context
-import com.example.skiescue.Constants
+import com.example.skiescue.alert.view.AlertModel
 import com.example.skiescue.data.local.Favourite
 import com.example.skiescue.data.local.RoomDB
 import com.example.skiescue.data.network.ApiCalls
 import com.example.skiescue.data.network.RetrofitInstance
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-
-import retrofit2.Response
 
 
 class Repository (context: Context){
@@ -37,6 +35,27 @@ class Repository (context: Context){
     }
 
 
+    // alerts
+
+    fun getAlerts(): Flow<List<AlertModel>>{
+       return room.alertDao().getAlerts()
+    }
+
+
+    suspend fun insertAlert(alert: AlertModel):Long{
+     return room.alertDao().insertAlert(alert)
+    }
+
+
+    suspend fun deleteAlert(id: Int){
+        room.alertDao().deleteAlert(id)
+    }
+
+
+    suspend fun getAlert(id: Int): AlertModel{
+        return room.alertDao().getAlert(id)
+    }
+
 
 
 
@@ -44,8 +63,8 @@ class Repository (context: Context){
     fun getWeatherDetalis(
          lat: Double,
          lon: Double,
-        // language: String="ar",
-         units: String,
+         language: String="ar",
+         units: String = "metric",
         exclude: String ?= null,
     ) = flow {
         val response =  remote.getWeatherDetalis(lat = lat, lon = lon, exclude = exclude, units = units)

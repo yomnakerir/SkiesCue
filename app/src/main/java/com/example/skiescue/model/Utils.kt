@@ -46,12 +46,12 @@ fun getIconImage(icon: String): Int {
 
 
 // convert to hours
-/*@SuppressLint("SimpleDateFormat")
+@SuppressLint("SimpleDateFormat")
 fun convertToTime(dt: Long, context: Context): String {
     val date = Date(dt * 1000)
     val format = SimpleDateFormat("h:mm a", Locale(getCurrentLan(context)))
     return format.format(date)
-}*/
+}
 
 fun timestampToReadableTime(dt:Long): String {
    return  SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date(dt*1000))

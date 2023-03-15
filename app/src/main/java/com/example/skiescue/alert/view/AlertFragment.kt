@@ -11,11 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.skiescue.databinding.FragmentAlertBinding
-import com.example.skiescue.dialog.view.AlertTimeDialog
+import com.example.skiescue.dialog.view.AlertDialog
 import com.example.skiescue.dialog.viewmodel.AlertViewModel
 import com.example.skiescue.dialog.viewmodel.AlertViewModelFactory
-import com.example.skiescue.favourite.viewmodel.FavouriteViewModel
-import com.example.skiescue.favourite.viewmodel.FavouriteViewModelFactory
 import com.example.skiescue.model.Repository
 import kotlinx.coroutines.launch
 
@@ -48,13 +46,14 @@ class AlertFragment : Fragment() {
 
         binding.fabAddAlert.setOnClickListener {
 
-                AlertTimeDialog().show(
+            AlertDialog ().show(
                     requireActivity().supportFragmentManager,
                     "MyAlertDialogFragment")
         }
 
 
 
+        viewModel.getAlerts()
         lifecycleScope.launch {
             viewModel.stateGetAlert.collect(){
                 if (it.isNullOrEmpty()) {
@@ -63,10 +62,9 @@ class AlertFragment : Fragment() {
                 } else {
 
                     binding.recAlertWeathers.visibility = View.VISIBLE
-
-
                     bindAlertWeathers(it)
                 }
+
             }
 
         }

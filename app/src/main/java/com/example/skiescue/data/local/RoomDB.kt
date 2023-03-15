@@ -5,12 +5,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.skiescue.alert.view.AlertDao
+import com.example.skiescue.alert.view.AlertModel
 
 
-@Database(entities = [Favourite::class], version = 13, exportSchema = false)
+@Database(entities = [Favourite::class, AlertModel::class], version = 14, exportSchema = false)
 @TypeConverters(Converter::class)
 abstract class RoomDB:RoomDatabase(){
     abstract fun favouriteDao():FavouriteDao
+    abstract fun alertDao():AlertDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the

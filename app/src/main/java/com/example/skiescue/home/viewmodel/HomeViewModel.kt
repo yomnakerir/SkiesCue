@@ -40,7 +40,7 @@ class HomeViewModel(private val repo: Repository) : ViewModel() {
            // _weatherDetails.value = repo.getWeatherDetalis(lat, lon, exclude, units)
 
             // for test insertion
-            repo.getWeatherDetalis(lat, lon, exclude!!, units)
+            repo.getWeatherDetalis(lat, lon, exclude, units)
                 .catch {
                     _weatherDetails.value = ApiResponse.onError(it.message.toString())
                 }
