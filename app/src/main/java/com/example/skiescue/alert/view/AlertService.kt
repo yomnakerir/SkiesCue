@@ -3,6 +3,7 @@ import android.app.*
 import android.content.ContentResolver
 import android.content.Intent
 import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.IBinder
 import android.provider.Settings
@@ -18,7 +19,7 @@ private const val CHANNEL_ID = 1
 private const val FOREGROUND_ID = 2
 
 
-class AlertService : Service() {
+class AlertService : Service( ) {
 
 
     private var notificationManager: NotificationManager? = null
@@ -74,12 +75,13 @@ class AlertService : Service() {
             channel.enableVibration(true)
 
 
-                val sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + this.packageName + "/" + R.raw.song)
+
+               /* val sound = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + this.packageName + "/" + R.raw.song)
                 val attributes = AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION)
                     .build()
                 channel.enableVibration(true)
-               channel.setSound(sound, attributes)
+               channel.setSound(sound, attributes)*/
 
 
             channel.description = description

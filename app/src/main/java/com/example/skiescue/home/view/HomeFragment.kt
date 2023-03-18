@@ -177,7 +177,7 @@ class HomeFragment : Fragment() {
        viewModel =
            ViewModelProvider(requireActivity(), viewModelFactory).get(HomeViewModel::class.java)
 
-       
+
        val flag = initFavSharedPref(requireContext()).getInt(getString(R.string.FAV_FLAG), 0)
        if (flag == 1 &&
            Navigation.findNavController(requireView()).previousBackStackEntry?.destination?.id == R.id.favourite_fragment

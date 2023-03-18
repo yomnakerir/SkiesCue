@@ -91,7 +91,7 @@ class FavouriteAdapter(
             val state = addresses[0].adminArea
             val country = addresses[0].countryName
             city = "$state, $country"
-            if (state.isNullOrEmpty()) city = country
+            if (state.isNullOrEmpty()) city = ""
         }
         if (city == "city")
             city = timezone

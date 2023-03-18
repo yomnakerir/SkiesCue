@@ -3,6 +3,7 @@ package com.example.skiescue.alert.view
 import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
+import android.media.MediaPlayer
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,12 +27,21 @@ class AlertWindowManger(private val context: Context, private val description: S
         view = inflater.inflate(R.layout.alert_display, null)
         binding = AlertDisplayBinding.bind(view)
 
+
+        val mediaPlayer = MediaPlayer.create(context,R.raw.abd )
+        mediaPlayer.setOnCompletionListener {
+              it.stop()
+        }
+        mediaPlayer.start()
+
         // Set Data
         binding.textDescription.text = description
         binding.btnOk.setOnClickListener {
             closeWindowManger()
             closeService()
+           mediaPlayer.stop()
         }
+
 
         // Initialize View
         val LAYOUT_FLAG: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -46,7 +56,8 @@ class AlertWindowManger(private val context: Context, private val description: S
             WindowManager.LayoutParams.WRAP_CONTENT,
             LAYOUT_FLAG,
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or WindowManager.LayoutParams.FLAG_LOCAL_FOCUS_MODE,
-            PixelFormat.TRANSLUCENT
+            PixelFormat.TRANSLUCENT,
+
         )
         windowManager.addView(view, params)
     }
