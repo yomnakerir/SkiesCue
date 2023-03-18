@@ -12,11 +12,10 @@ import android.widget.Button
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.work.*
 import com.example.skiescue.R
-import com.example.skiescue.alert.view.AlertModel
-import com.example.skiescue.alert.view.convertDateToLong
-import com.example.skiescue.alert.view.dayConverterToString
-import com.example.skiescue.alert.view.timeConverterToString
+import com.example.skiescue.alert.view.*
 import com.example.skiescue.databinding.FragmentAlertBinding
 import com.example.skiescue.databinding.FragmentAlertDialogBinding
 import com.example.skiescue.databinding.FragmentHomeBinding
@@ -24,6 +23,7 @@ import com.example.skiescue.databinding.FragmentSettingBinding
 import com.example.skiescue.dialog.viewmodel.AlertViewModel
 import com.example.skiescue.dialog.viewmodel.AlertViewModelFactory
 import com.example.skiescue.model.Repository
+import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -47,6 +47,12 @@ class AlertDialog : DialogFragment() {
 
         _binding = FragmentAlertDialogBinding.inflate(inflater, container, false)
         binding
+
+        // view model factory
+        val repository = Repository(requireContext())
+        val viewModelFactory = AlertViewModelFactory(repository =repository )
+        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(AlertViewModel::class.java)
+
 
         fromBtn = binding.btnFrom
         toBtn = binding.btnTo
@@ -72,17 +78,22 @@ class AlertDialog : DialogFragment() {
         }
 
         // observe Insert
-        /* lifecycleScope.launch {
+         lifecycleScope.launch {
              viewModel.stateInsetAlert.collect{id->
                  // Register Worker Here and send ID of alert
-                 // TODO 3#2 Create Periodic Worker
                  setPeriodWorkManger(id)
              }
-         } */
+         }
 
 
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // intialize model
+
     }
 
 
@@ -95,17 +106,7 @@ class AlertDialog : DialogFragment() {
         )
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // intialize model
 
-        // view model factory
-        val repository = Repository(requireContext())
-        val viewModelFactory = AlertViewModelFactory(repository =repository )
-        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(AlertViewModel::class.java)
-
-
-    }
 
 
 
@@ -194,7 +195,7 @@ class AlertDialog : DialogFragment() {
     }
 
 
-    /* private fun setPeriodWorkManger(id: Long) {
+    private fun setPeriodWorkManger(id: Long) {
 
          val data = Data.Builder()
          data.putLong("id", id)
@@ -204,7 +205,7 @@ class AlertDialog : DialogFragment() {
              .build()
 
          val periodicWorkRequest = PeriodicWorkRequest.Builder(
-             AlertPeriodicWorkManger::class.java,
+             AlertPeriodicWorkManager::class.java,
              24, TimeUnit.HOURS
          )
              .setConstraints(constraints)
@@ -216,5 +217,5 @@ class AlertDialog : DialogFragment() {
              ExistingPeriodicWorkPolicy.REPLACE,
              periodicWorkRequest
          )
-     } */
+     }
 }

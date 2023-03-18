@@ -9,7 +9,7 @@ import com.example.skiescue.alert.view.AlertDao
 import com.example.skiescue.alert.view.AlertModel
 
 
-@Database(entities = [Favourite::class, AlertModel::class], version = 14, exportSchema = false)
+@Database(entities = [Favourite::class, AlertModel::class], version = 16, exportSchema = false)
 @TypeConverters(Converter::class)
 abstract class RoomDB:RoomDatabase(){
     abstract fun favouriteDao():FavouriteDao

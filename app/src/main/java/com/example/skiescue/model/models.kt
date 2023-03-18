@@ -98,6 +98,15 @@ data class Daily(
 
 )
 
+data class Alerts(
+    @SerializedName("sender_name") var senderName: String? = null,
+    @SerializedName("event") var event: String? = null,
+    @SerializedName("start") var start: Long? = null,
+    @SerializedName("end") var end: Long? = null,
+    @SerializedName("description") var description: String? = null,
+    @SerializedName("tags") var tags: List<String>
+)
+
 data class WeatherResponse(
     val current: Current ?= null,
     val daily: List<Daily> = emptyList(),
@@ -106,6 +115,7 @@ data class WeatherResponse(
     val lon: Double ?= null,
     val timezone: String ?= null,
     val timezone_offset: Int ?= null,
+    val alerts: List<Alerts>?=null,
     val icon: String? = null
 
 )

@@ -6,6 +6,7 @@ import com.example.skiescue.data.local.Favourite
 import com.example.skiescue.data.local.RoomDB
 import com.example.skiescue.data.network.ApiCalls
 import com.example.skiescue.data.network.RetrofitInstance
+import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -61,13 +62,14 @@ class Repository (context: Context){
 
     // functions from Api calls
     fun getWeatherDetalis(
-         lat: Double,
-         lon: Double,
-         language: String="ar",
-         units: String = "metric",
+        lat: Double,
+        lon: Double,
+        language: String ,
+        units: String ,
         exclude: String ?= null,
+
     ) = flow {
-        val response =  remote.getWeatherDetalis(lat = lat, lon = lon, exclude = exclude, units = units)
+        val response =  remote.getWeatherDetalis(lat = lat, lon = lon, exclude = exclude, units = units, language = language)
         if(response.isSuccessful){
             emit(response.body() ?: WeatherResponse() )
         }else{

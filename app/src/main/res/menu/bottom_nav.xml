@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Home"
+    <item
         android:id="@+id/home_fragment"
         android:icon="@drawable/home"
-        />
+        android:title="@string/homebar" />
 
-    <item android:title="Favourite"
+    <item
         android:id="@+id/favourite_fragment"
         android:icon="@drawable/ic_baseline_favorite_border_24"
-        />
-    <item android:title="Alerts"
+        android:title="@string/favbar" />
+    <item
         android:id="@+id/alerts_fragment"
         android:icon="@drawable/ic_baseline_notifications_none_24"
-        />
-    <item android:title="Setting"
+        android:title="@string/alertsbar" />
+    <item
         android:id="@+id/setting_fragment"
         android:icon="@drawable/setting"
-        />
+        android:title="@string/settingbar" />
 </menu>

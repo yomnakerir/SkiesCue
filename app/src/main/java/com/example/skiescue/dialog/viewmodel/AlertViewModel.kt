@@ -59,10 +59,10 @@ class AlertViewModel (private val repository: Repository):ViewModel(){
      }
 
 
-     fun getAlert(id: Int){
+     fun getAlert(id: Long){
 
          viewModelScope.launch {
-             val alertModel = repository.getAlert(id)
+             val alertModel = repository.getAlert(id.toInt())
              _stateSingleAlert.value = alertModel
          }
      }

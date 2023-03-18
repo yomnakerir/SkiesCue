@@ -73,6 +73,24 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="settingTitle">My Settings</string>
+    <string name="alertschoose">Alerts</string>
+    <string name="notificationchoose">Notification</string>
+    <string name="alertdialogchoose">Alert Dialog</string>
+    <string name="languagechoose">Language</string>
+    <string name="englishchoose">English</string>
+    <string name="arabicchoose">Arabic</string>
+    <string name="tempchoose">Temperature</string>
+    <string name="celsiuschoose">Celsius</string>
+    <string name="kelvinchoose">Kelvin</string>
+    <string name="fahrenheitchoose">Fahrenheit</string>
+    <string name="homebar">Home</string>
+    <string name="favbar">Favourite</string>
+    <string name="alertsbar">Alerts</string>
+    <string name="settingbar">Setting</string>
+    <string name="favTitle">My Favourites</string>
+    <string name="alertsTitle">My Alerts</string>
+    <string name="searchhint">Search...</string>
 
 
 </resources>

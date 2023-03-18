@@ -52,7 +52,7 @@ class FavouriteFragment : Fragment() {
         viewModel.getFavouriteList()
         lifecycleScope.launch {
             viewModel.favouriteList.collect{
-                Toast.makeText(requireContext(),"length of fav is ${it.size}", Toast.LENGTH_LONG).show()
+               // Toast.makeText(requireContext(),"length of fav is ${it.size}", Toast.LENGTH_LONG).show()
             }
         }
 

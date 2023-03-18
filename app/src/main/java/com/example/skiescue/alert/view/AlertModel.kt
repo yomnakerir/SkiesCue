@@ -12,7 +12,6 @@ data class AlertModel(
     var endTime: Long ?= null,
     var startDate: Long ?= null,
     var endDate: Long ?= null,
-
     var latitude: Double ?= null,
     var longitude: Double ?= null,
 )

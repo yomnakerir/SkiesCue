@@ -29,11 +29,11 @@
         android:layout_height="wrap_content">
 
         <SearchView
-            android:layout_width="match_parent"
             android:id="@+id/search_view"
-            android:queryHint="Search.."
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:iconifiedByDefault="false"
-            android:layout_height="50dp" >
+            android:queryHint="@string/searchhint">
 
         </SearchView>
 

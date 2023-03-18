@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="settingTitle">إعدادتى</string>
+    <string name="alertschoose">المنبهات</string>
+    <string name="notificationchoose">إشعار</string>
+    <string name="alertdialogchoose">تنبيه</string>
+    <string name="languagechoose">اللغة</string>
+    <string name="englishchoose">الإنجليزية</string>
+    <string name="arabicchoose">العربية</string>
+    <string name="tempchoose">درجة الحرارة</string>
+    <string name="celsiuschoose">سلسيوس</string>
+    <string name="kelvinchoose">كلڤن</string>
+    <string name="fahrenheitchoose">فرنهايت</string>
+
+
+    <string name="homebar">الرئيسية</string>
+    <string name="favbar">المفضلة</string>
+    <string name="alertsbar">المنبهات</string>
+    <string name="settingbar">الإعدادت</string>
+
+    <string name="favTitle">مفضلتى</string>
+    <string name="alertsTitle">منبهاتى</string>
+
+    <string name="Celsusi">س°</string>
+    <string name="Ferherhit">ف</string>
+    <string name="KELVIN">ك°</string>
+
+    <string name="searchhint">بحث...</string>
+    <string name="save">حفظ</string>
+
+
+
+</resources>

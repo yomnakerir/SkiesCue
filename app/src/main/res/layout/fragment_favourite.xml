@@ -20,12 +20,12 @@
 
                <TextView
                    android:id="@+id/fav_title"
-                   android:fontFamily="@font/moodboard"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_marginTop="16dp"
                    android:layout_marginBottom="16dp"
-                   android:text="My Favourites"
+                   android:fontFamily="@font/moodboard"
+                   android:text="@string/favTitle"
                    android:textColor="@color/deep"
                    android:textSize="25sp"
                    android:textStyle="bold"
@@ -64,6 +64,7 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_marginEnd="30dp"
+           android:layout_marginStart="30dp"
            android:layout_marginBottom="30dp"
            android:backgroundTint="@color/deep"
            android:elevation="3dp"

@@ -88,6 +88,9 @@ class HomeFragment : Fragment() {
                 if (location == null) {
                     Toast.makeText(requireContext(), "Null recived", Toast.LENGTH_LONG).show()
                 } else {
+                    viewModel.getWeatherDetails(location.latitude
+                        , location.longitude, "", getCurrentUnit(requireContext()), getCurrentLan(requireContext())
+                    )
                     val geocoder = Geocoder(requireContext())
                     val addresses =
                         geocoder.getFromLocation(location.latitude, location.longitude, 1)
@@ -129,8 +132,6 @@ class HomeFragment : Fragment() {
 
 
     }
-
-
 
 
     override fun onCreateView(
@@ -194,7 +195,7 @@ class HomeFragment : Fragment() {
        // tukia
        //viewModel.getWeatherDetails(39.8838319962455, 32.64327850625678, "", "metric")
 
-      viewModel.getWeatherDetails(31.32805230565252, 31.715162800626036, "", "metric")
+//      viewModel.getWeatherDetails(31.32805230565252, 31.715162800626036, "", "metric")
 
 
 
@@ -207,7 +208,7 @@ class HomeFragment : Fragment() {
 
                      timeOffestValue = state.data.timezone_offset?:0
                      // Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
-                     feelsLike.text = "Feels Like " + state.data.current?.feelsLike.toString()+"°"
+                     feelsLike.text = "Feels Like " + state.data.current?.feelsLike.toString()
                      city.text = state.data.timezone.toString()
                      temp.text =state.data.current?.temp.toString()+"°"
                     val datecon:String =  convertToDate(state.data.current?.dt?:0, requireContext())
@@ -245,40 +246,6 @@ class HomeFragment : Fragment() {
      }
 
 
-        // here what i made using observe of lif data
-       /* viewModel.weatherDetails.observe(viewLifecycleOwner){
-
-             timeOffestValue = it.timezone_offset!!
-             // Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
-              feelsLike.text = "Feels Like " + it.current?.feelsLike.toString()+"°"
-              city.text = it.timezone.toString()
-              temp.text = it.current?.temp.toString()+"°"
-              val datecon:String =  convertToDate(it.current?.dt!!, requireContext())
-              val timecon:String =  timestampToReadableTime(it.current?.dt!!)
-              date.text = datecon + ", " + timecon
-
-             // sunrise and sunset
-              sunriseTime.text = timestampToReadableTime(it.current.sunrise!!)
-              sunsetTime.text = timestampToReadableTime( it.current.sunset!!)
-
-             // details of day
-             uvi.text = it.current.uvi.toString()
-             humidity.text = it.current.humidity.toString() + "%"
-             wind.text = it.current.windSpeed.toString() + " km/h"
-
-
-           // set image
-           //imageViewLottie.setAnimation(getIconImage(it.icon.toString()))
-
-
-              //recyclerView.adapter(ItemCardGridSunriseSunsetBinding.)
-
-              // weather hour set
-              bindHourlyWeather(it.hourly)
-
-              // weather days set
-              bindDailyWeather(it.daily)
-          }   */
 
     }
 

@@ -32,15 +32,16 @@ class HomeViewModel(private val repo: Repository) : ViewModel() {
     fun getWeatherDetails(
         lat:Double,
         lon: Double,
-        exclude: String = "",
+        exclude: String ,
         units: String,
+        language: String,
         ){
          // here the data come , i wil send it by live data
         viewModelScope.launch {
            // _weatherDetails.value = repo.getWeatherDetalis(lat, lon, exclude, units)
 
             // for test insertion
-            repo.getWeatherDetalis(lat, lon, exclude, units)
+            repo.getWeatherDetalis(lat, lon, exclude, units, language)
                 .catch {
                     _weatherDetails.value = ApiResponse.onError(it.message.toString())
                 }
