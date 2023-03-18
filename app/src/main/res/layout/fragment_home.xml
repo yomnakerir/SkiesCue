@@ -30,7 +30,7 @@
                    app:layout_constraintTop_toTopOf="parent"
                    app:lottie_autoPlay="true"
                    app:lottie_loop="true"
-                   app:lottie_rawRes="@raw/cloudynight" />
+                   app:lottie_rawRes="@raw/brokenclod" />
 
                <TextView
                    android:id="@+id/txt_temp"
@@ -64,8 +64,8 @@
                    android:layout_height="wrap_content"
                    android:layout_marginStart="40dp"
                    android:layout_marginTop="32dp"
-                   android:text="Feels like"
                    android:fontFamily="@font/semibold"
+                   android:text="@string/feelslike"
                    android:textColor="@color/white"
                    android:textSize="15sp"
                    app:layout_constraintStart_toStartOf="parent"
@@ -163,6 +163,7 @@
 
                </androidx.cardview.widget.CardView>
 
+
                <!-- sunrise sunset -->
 
                <androidx.cardview.widget.CardView
@@ -193,7 +194,7 @@
                            android:layout_marginTop="17dp"
                            android:layout_marginBottom="16dp"
                            android:fontFamily="@font/semibold"
-                           android:text="Sunrise"
+                           android:text="@string/sunrise"
                            android:textColor="@color/white"
                            android:textSize="18sp"
                            app:layout_constraintBottom_toTopOf="@+id/sunrise_time"
@@ -235,9 +236,9 @@
                            android:layout_height="wrap_content"
                            android:layout_marginStart="92dp"
                            android:layout_marginTop="17dp"
-                           android:text="Sunset"
-                           android:textColor="@color/white"
                            android:fontFamily="@font/semibold"
+                           android:text="@string/sunset"
+                           android:textColor="@color/white"
                            android:textSize="18sp"
                            app:layout_constraintStart_toEndOf="@+id/sunrise_fixed"
                            app:layout_constraintTop_toTopOf="parent" />
@@ -344,7 +345,7 @@
                            android:layout_marginEnd="49dp"
                            android:layout_marginBottom="4dp"
                            android:fontFamily="@font/semibold"
-                           android:text="UV index"
+                           android:text="@string/uv"
                            android:textColor="@color/white"
                            app:layout_constraintBottom_toTopOf="@+id/uvindex_txt"
                            app:layout_constraintEnd_toStartOf="@+id/wind_fixed"
@@ -356,9 +357,9 @@
                            android:layout_height="wrap_content"
                            android:layout_marginStart="52dp"
                            android:layout_marginBottom="8dp"
-                           android:text="Wind"
-                           android:textColor="@color/white"
                            android:fontFamily="@font/semibold"
+                           android:text="@string/wind"
+                           android:textColor="@color/white"
                            app:layout_constraintBottom_toTopOf="@+id/wind_txt"
                            app:layout_constraintStart_toEndOf="@+id/uvindex_fixed" />
 
@@ -370,7 +371,7 @@
                            android:layout_marginEnd="55dp"
                            android:layout_marginBottom="8dp"
                            android:fontFamily="@font/semibold"
-                           android:text="Humidity"
+                           android:text="@string/humidity"
                            android:textColor="@color/white"
 
                            app:layout_constraintBottom_toTopOf="@+id/humidity_txt"

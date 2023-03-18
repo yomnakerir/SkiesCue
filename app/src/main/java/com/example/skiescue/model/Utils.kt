@@ -142,7 +142,7 @@ fun checkShared(context: Context): Boolean {
 //// history of Days
 fun convertLongToDay(time: Long, context: Context): String {
     val date = Date(TimeUnit.SECONDS.toMillis(time))
-    val format = SimpleDateFormat("EEEE", Locale(getCurrentLan(context)))
+    val format = SimpleDateFormat("EEE", Locale(getCurrentLan(context)))
     return format.format(date)
 }
 

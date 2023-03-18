@@ -13,12 +13,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.motion.widget.Debug.getLocation
 import androidx.core.app.ActivityCompat
 import androidx.core.app.LocaleManagerCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.location.LocationManagerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
@@ -143,18 +145,7 @@ class HomeFragment : Fragment() {
 
         //println("*********************************************** ${lat}     ${long}")
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        if(checkPermission()){
-            if(isEnabledLocation()){
-                Toast.makeText(requireContext(), "Permission Granted", Toast.LENGTH_LONG).show()
-                getLastLocation()
-            } else{
-                Toast.makeText(requireContext(), "Should Enable Location", Toast.LENGTH_LONG).show()
-            }
 
-        }else{
-            requestPermission()
-        }
 
         feelsLike = binding.txtFeelLikes
         temp = binding.txtTemp
@@ -175,78 +166,123 @@ class HomeFragment : Fragment() {
     }
 
    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+       super.onViewCreated(view, savedInstanceState)
 
-               initHourRecycle()
-               intDayRecycle()
+       initHourRecycle()
+       intDayRecycle()
 
        // textView = view.findViewById(R.id.response)
        val repository = Repository(requireContext())
-       val viewModelFactory = HomeViewModelFactory(repository =repository )
-        viewModel = ViewModelProvider(requireActivity(), viewModelFactory).get(HomeViewModel::class.java)
+       val viewModelFactory = HomeViewModelFactory(repository = repository)
+       viewModel =
+           ViewModelProvider(requireActivity(), viewModelFactory).get(HomeViewModel::class.java)
 
-        // here i make  an observer
-       //viewModel.getWeatherDetails(30.020847056268064, 31.1904858698064)
+       
+       val flag = initFavSharedPref(requireContext()).getInt(getString(R.string.FAV_FLAG), 0)
+       if (flag == 1 &&
+           Navigation.findNavController(requireView()).previousBackStackEntry?.destination?.id == R.id.favourite_fragment
+       ) {
 
-       // america
-      // println("-----------------------------${lat}     ${long}")
-      //viewModel.getWeatherDetails(lat, long , "", "metric")
+           //require get Data
+           val lat = initFavSharedPref(requireContext()).getFloat(getString(R.string.LAT), 0f)
+           val long = initFavSharedPref(requireContext()).getFloat(getString(R.string.LON), 0f)
 
-       // tukia
-       //viewModel.getWeatherDetails(39.8838319962455, 32.64327850625678, "", "metric")
+           viewModel.getWeatherDetails(
+               lat.toDouble(),
+               long.toDouble(),
+               "",
+               getCurrentLan(requireContext()),
+               getCurrentUnit(requireContext()),
 
-//      viewModel.getWeatherDetails(31.32805230565252, 31.715162800626036, "", "metric")
-
-
-
-
-    lifecycleScope.launch {
-         viewModel.weatherDetails.collect{
-           state->
-             when(state){
-                 is ApiResponse.OnSucess -> {
-
-                     timeOffestValue = state.data.timezone_offset?:0
-                     // Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
-                     feelsLike.text = "Feels Like " + state.data.current?.feelsLike.toString()
-                     city.text = state.data.timezone.toString()
-                     temp.text =state.data.current?.temp.toString()+"°"
-                    val datecon:String =  convertToDate(state.data.current?.dt?:0, requireContext())
-                     val timecon:String =  timestampToReadableTime(state.data.current?.dt?:0)
-                     date.text = datecon + ", " + timecon
-
-                     // sunrise and sunset
-                     sunriseTime.text = timestampToReadableTime(state.data.current?.sunrise?:0)
-                     sunsetTime.text = timestampToReadableTime( state.data.current?.sunset?:0)
-
-                     // details of day
-                     uvi.text = state.data.current?.uvi?.toString()+""?:""
-                     humidity.text = state.data.current?.humidity?.toString() + " %"?:( " " + "%")
-                     wind.text = state.data.current?.windSpeed?.toString() + " km/h" ?: ( " " + " km/h")
+               )
 
 
-                     // set image
-                     //imageViewLottie.setAnimation(getIconImage(it.icon.toString()))
+           //then update value
+           initFavSharedPref(requireContext()).edit().apply {
+               putInt(getString(R.string.FAV_FLAG), 0)
+               apply()
+           }
+
+       } else {
+           updateLocationFromGPS()
+           if ((initSharedPref(requireContext()).getInt("B", 2) == 1)) {
+               getLocation()
+               initSharedPref(requireContext()).edit().apply {
+                   putInt(getString(R.string.LOCATION), 3)
+                   apply()
+               }
 
 
-                     //recyclerView.adapter(ItemCardGridSunriseSunsetBinding.)
+           }
 
-                     // weather hour set
-                     bindHourlyWeather(state.data.hourly)
+       }
 
-                     // weather days set
-                     bindDailyWeather(state.data.daily)
+       lifecycleScope.launch {
+           viewModel.weatherDetails.collect { state ->
+               when (state) {
+                   is ApiResponse.OnSucess -> {
 
-                 }
-                 is ApiResponse.onError -> {}
-                 is ApiResponse.OnLoading-> {}
-             }
+                       timeOffestValue = state.data.timezone_offset ?: 0
+                       // Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
+                       feelsLike.text = "Feels Like " + state.data.current?.feelsLike.toString()
+                       city.text = state.data.timezone.toString()
+                       temp.text = state.data.current?.temp.toString() + "°"
+                       val datecon: String =
+                           convertToDate(state.data.current?.dt ?: 0, requireContext())
+                       val timecon: String = timestampToReadableTime(state.data.current?.dt ?: 0)
+                       date.text = datecon + ", " + timecon
 
-         }
-     }
+                       // sunrise and sunset
+                       sunriseTime.text = timestampToReadableTime(state.data.current?.sunrise ?: 0)
+                       sunsetTime.text = timestampToReadableTime(state.data.current?.sunset ?: 0)
+
+                       // details of day
+                       uvi.text = state.data.current?.uvi?.toString() ?: ""
+                       humidity.text =
+                           state.data.current?.humidity?.toString()  +" %"?: (" " + "%")
+                       wind.text =
+                           state.data.current?.windSpeed?.toString() +" km/h"?: (" " + " km/h")
+
+
+                       // set image
+                       //imageViewLottie.setAnimation(getIconImage(state.data.icon.toString()))
+
+
+                       //recyclerView.adapter(ItemCardGridSunriseSunsetBinding.)
+
+                       // weather hour set
+                       bindHourlyWeather(state.data.hourly)
+
+                       // weather days set
+                       bindDailyWeather(state.data.daily)
+
+                   }
+                   is ApiResponse.onError -> {}
+                   is ApiResponse.OnLoading -> {}
+               }
+
+           }
+       }
 
 
 
+
+   }
+
+    private fun updateLocationFromGPS() {
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        if(checkPermission()){
+            if(isEnabledLocation()){
+                Toast.makeText(requireContext(), "Permission Granted", Toast.LENGTH_LONG).show()
+                getLastLocation()
+            } else{
+                Toast.makeText(requireContext(), "Should Enable Location", Toast.LENGTH_LONG).show()
+            }
+
+        }else{
+            requestPermission()
+        }
     }
 
 

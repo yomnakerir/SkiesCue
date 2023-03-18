@@ -50,7 +50,7 @@ class AlertPeriodicWorkManager(private val context: Context, workerParams: Worke
 
                 if (checkTimeLimit(alert)) {
                     val delay: Long = getDelay(alert)
-                    // currentWeather?.alerts.isNullOrEmpty()
+
                     if (it.alerts.isNullOrEmpty()) {
                         setOneTimeWorkManger(
                             delay,
@@ -70,7 +70,6 @@ class AlertPeriodicWorkManager(private val context: Context, workerParams: Worke
         }
 
     }
-
     private fun setOneTimeWorkManger(delay: Long, id: Int?, description: String) {
         val data = Data.Builder()
         data.putString("description", description)

@@ -29,6 +29,16 @@
     <string name="searchhint">بحث...</string>
     <string name="save">حفظ</string>
 
+    <string name="feelslike">درجة الحرارة كأنها</string>
+    <string name="sunrise">الشروق</string>
+    <string name="sunset">الغروب</string>
+    <string name="wind">الرياح</string>
+    <string name="humidity">الرطوبة</string>
+    <string name="uv">الأشعة</string>
+
+    <string name="from">من</string>
+    <string name="to">إلى</string>
+    <string name="Delete">حذف</string>
 
 
 </resources>

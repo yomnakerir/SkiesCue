@@ -11,6 +11,7 @@ import com.example.skiescue.R
 import com.example.skiescue.data.local.Favourite
 import com.example.skiescue.databinding.ItemCardFavouriteBinding
 import com.example.skiescue.model.getCurrentLan
+import com.example.skiescue.model.initFavSharedPref
 import java.util.*
 
 class FavouriteAdapter(
@@ -47,11 +48,22 @@ class FavouriteAdapter(
         holder.binding.txtFavTimeZone.setOnClickListener {
             // init shared
 
+            initFavSharedPref(fragment.requireContext())
+                .edit()
+                .apply {
+                    putFloat(fragment.getString(R.string.LON), favWeather[position].longitude!!.toFloat())
+                    putFloat(fragment.getString(R.string.LAT), favWeather[position].latitude!!.toFloat())
+
+                    putInt(fragment.getString(R.string.ID), favWeather[position].id!!)
+                    putInt(fragment.getString(R.string.FAV_FLAG), 1)
+                    apply()
+                }
 
             // make some cond -- here i want to send lat and long .. then recive them at home
             Navigation.findNavController(fragment.requireView())
                 .navigate(R.id.action_favouriteFragment_to_navigation_home)
         }
+
         // handle delete
         holder.binding.imgDelete.setOnClickListener {
             onDelete(favWeather[position])

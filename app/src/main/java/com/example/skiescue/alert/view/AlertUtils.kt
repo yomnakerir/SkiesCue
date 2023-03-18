@@ -17,7 +17,7 @@ fun dateTimeConverterTimestampToString(dt: Long,context: Context): String? {
 @SuppressLint("SimpleDateFormat")
 fun dayConverterToString(dt: Long,context: Context): String? {
     val timeStamp = Date(TimeUnit.SECONDS.toMillis(dt))
-    return SimpleDateFormat("dd MMM",getCurrentLocale(context)).format(timeStamp)
+    return SimpleDateFormat("d MMM",getCurrentLocale(context)).format(timeStamp)
 }
 
 @SuppressLint("SimpleDateFormat")

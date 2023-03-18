@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.skiescue.databinding.ItemCardAlertBinding
 import com.example.skiescue.model.convertToDate
 import com.example.skiescue.model.convertToTime
-
+import android.content.Context
 class AlertAdapter (
 
-    private val fragment: Fragment,
+    val context: Context,
     private val onDelete: (model: AlertModel) -> Unit
     ) : RecyclerView.Adapter<AlertAdapter.ViewHolder>() {
         private var weatherAlerts = emptyList<AlertModel>()
@@ -33,10 +33,10 @@ class AlertAdapter (
         }
 
         override fun onBindViewHolder(holder: AlertAdapter.ViewHolder, position: Int) {
-            holder.binding.txtFrom.text =
-                getText(weatherAlerts[position].startTime!!, weatherAlerts[position].startDate!!)
-            holder.binding.txtTo.text =
-                getText(weatherAlerts[position].endTime!!, weatherAlerts[position].endDate!!)
+            holder.binding.txtFrom.text = "${dayConverterToString(weatherAlerts[position].startDate?:0, context)} ${timeConverterToString(weatherAlerts[position].startTime?:0, context)}"
+                //getText(weatherAlerts[position].startTime!!, weatherAlerts[position].startDate!!)
+            holder.binding.txtTo.text =  "${dayConverterToString(weatherAlerts[position].endDate?:0, context)} ${timeConverterToString(weatherAlerts[position].endTime?:0, context)}"
+              //  getText(weatherAlerts[position].endTime!!, weatherAlerts[position].endDate!!)
 
 
             // handle delete
@@ -55,10 +55,10 @@ class AlertAdapter (
 
         }
 
-        private fun getText(time: Long, day: Long): String {
+      /*  private fun getText(time: Long, day: Long): String {
             return convertToDate(day, fragment.requireContext()).plus("\n")
                 .plus(convertToTime(time, fragment.requireContext()))
-        }
+        }*/
 
 
     }

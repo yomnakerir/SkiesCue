@@ -91,6 +91,12 @@
     <string name="favTitle">My Favourites</string>
     <string name="alertsTitle">My Alerts</string>
     <string name="searchhint">Search...</string>
+    <string name="feelslike">Feels Like</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="wind">Wind</string>
+    <string name="humidity">Humidity</string>
+    <string name="uv">UV index</string>
 
 
 </resources>

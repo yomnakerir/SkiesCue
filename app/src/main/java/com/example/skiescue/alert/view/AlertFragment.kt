@@ -87,7 +87,7 @@ class AlertFragment : Fragment() {
     }
 
     private fun initAlertWeatherRecycle() {
-        alertAdapter = AlertAdapter(requireParentFragment(), deleteAction)
+        alertAdapter = AlertAdapter(requireContext(), deleteAction)
         binding.recAlertWeathers.apply {
             this.adapter = alertAdapter
             this.layoutManager = LinearLayoutManager(
